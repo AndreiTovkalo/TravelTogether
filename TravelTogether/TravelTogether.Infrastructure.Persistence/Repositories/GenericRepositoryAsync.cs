@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TravelTogether.Application.Interfaces;
 using TravelTogether.Infrastructure.Persistence.Contexts;
 
-namespace TravelTogether.Infrastructure.Persistence.Repository
+namespace TravelTogether.Infrastructure.Persistence.Repositories
 {
     public class GenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : class
     {

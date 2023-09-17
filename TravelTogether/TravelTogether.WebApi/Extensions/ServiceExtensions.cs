@@ -7,7 +7,9 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TravelTogether.WebApi.Extensions
 {
@@ -113,9 +115,16 @@ namespace TravelTogether.WebApi.Extensions
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.RequireHttpsMetadata = false;
-                    options.Authority = configuration["Sts:ServerUrl"];
-                    options.Audience = configuration["Sts:Audience"];
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["JWTSettings:Issuer"],
+                        ValidAudience = configuration["JWTSettings:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:Key"]!)),
+                    };
                 });
         }
         public static void AddAuthorizationPolicies(this IServiceCollection services, IConfiguration configuration)

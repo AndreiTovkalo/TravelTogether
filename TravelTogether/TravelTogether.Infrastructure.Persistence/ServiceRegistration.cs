@@ -1,11 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TravelTogether.Application.Interfaces;
 using TravelTogether.Application.Interfaces.Repositories;
+using TravelTogether.Domain.Entities;
 using TravelTogether.Infrastructure.Persistence.Contexts;
 using TravelTogether.Infrastructure.Persistence.Repositories;
-using TravelTogether.Infrastructure.Persistence.Repository;
+using TravelTogether.Infrastructure.Persistence.Repositories;
+
 
 namespace TravelTogether.Infrastructure.Persistence
 {
@@ -13,26 +16,17 @@ namespace TravelTogether.Infrastructure.Persistence
     {
         public static void AddPersistenceInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            if (configuration.GetValue<bool>("UseInMemoryDatabase"))
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase("ApplicationDb"));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlServer(
-                   configuration.GetConnectionString("DefaultConnection"),
-                   b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
 
-            #region Repositories
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseMySql("server=127.0.0.1;uid=root;pwd=root;database=travel_together;port=8889",
+                    new MySqlServerVersion(new Version(5, 7, 39))));
 
             services.AddTransient(typeof(IGenericRepositoryAsync<>), typeof(GenericRepositoryAsync<>));
-            services.AddTransient<IPositionRepositoryAsync, PositionRepositoryAsync>();
-            services.AddTransient<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();
+            // services.AddTransient<IPositionRepositoryAsync, PositionRepositoryAsync>();
+            // services.AddTransient<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
-            #endregion Repositories
         }
     }
 }
