@@ -9,7 +9,7 @@ public interface IUserRepository
 {
     Task<User> GetByIdAsync(Guid id);
 
-    Task<IEnumerable<User>> GetAllAsync();
+    ICollection<User> GetAllAsync();
 
     // Task<IEnumerable<User>> GetPagedReponseAsync(int pageNumber, int pageSize);
     //

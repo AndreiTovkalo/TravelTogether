@@ -21,9 +21,9 @@ public class UserService : IUserService
     
     public async Task<User> CreateUser(User user)
     {
-        var dbUsers = await _userRepository.GetAllAsync();
+        var dbUsers = _userRepository.GetAllAsync().ToList();
 
-        if (dbUsers.ToList().Any(u => u.AuthLocal.Email == user.AuthLocal.Email))
+        if (dbUsers.Any(u => u.AuthLocal.Email == user.AuthLocal.Email))
         {
             throw new ApiException("User with this email already exist");
         }

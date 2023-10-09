@@ -12,15 +12,15 @@ namespace TravelTogether.Infrastructure.Persistence.Repositories;
 public class UserRepository : IUserRepository
 {
 
-    private readonly DbContext _dbContext;
+    private readonly ApplicationDbContext _dbContext;
+    
     
     public UserRepository(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-
-
+    
     public async Task<User> GetByIdAsync(Guid id)
     {
         return await _dbContext.Set<User>().FindAsync(id);
@@ -53,9 +53,9 @@ public class UserRepository : IUserRepository
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<User>> GetAllAsync()
+    public ICollection<User> GetAllAsync()
     {
-        return await _dbContext.Set<User>().ToListAsync();
+        return _dbContext.Users.Include(u => u.AuthLocal).ToList();
     }
 
 

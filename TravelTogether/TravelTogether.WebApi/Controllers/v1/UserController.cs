@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TravelTogether.Application.DTOs.Auth;
 using TravelTogether.Application.Interfaces;
 using TravelTogether.Domain.Entities;
 
@@ -13,18 +14,20 @@ public class UserController : BaseApiController
 {
 
     private readonly IUserService _userService;
+    private readonly IAuthService _authService;
 
-    public UserController(IUserService userService)
+    public UserController(IUserService userService, IAuthService authService)
     {
         _userService = userService;
+        _authService = authService;
     }
 
-    // [HttpGet]
-    // [Route("get-current-user")]
-    // public async Task<IActionResult> GetCurrentUserInfo()
-    // {
-    //     return Ok(await _userService.());
-    // }
+    [HttpGet]
+    [Route("get-current-user")]
+    public async Task<IActionResult> GetCurrentUserInfo()
+    {
+        return Ok(new { text= "Hello" });
+    }
 
     // [HttpGet]
     // [Route("get-user")]
@@ -41,9 +44,16 @@ public class UserController : BaseApiController
     // }
 
     [HttpPost]
-    [Route("create")]
-    public async Task<IActionResult> CreateUser([FromBody] User user)
+    [AllowAnonymous]
+    [Route("register")]
+    public async Task<IActionResult> CreateUser([FromBody] RegisterRequest request)
     {
-        return Ok(await _userService.CreateUser(user));
+        return Ok(await _authService.Register(request));
     }
+
+
+    [HttpPost]
+    [AllowAnonymous]
+    [Route("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request) => Ok(await _authService.Login(request));
 }
