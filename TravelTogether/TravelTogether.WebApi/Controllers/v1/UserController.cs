@@ -26,7 +26,10 @@ public class UserController : BaseApiController
     [Route("get-current-user")]
     public async Task<IActionResult> GetCurrentUserInfo()
     {
-        return Ok(new { text= "Hello" });
+        
+        
+        
+        return Ok(_userService.GetCurrentUser((Request.Headers.Authorization.ToString()).Split(" ")[1]));
     }
 
     // [HttpGet]

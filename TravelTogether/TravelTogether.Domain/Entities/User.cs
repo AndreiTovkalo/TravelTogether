@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TravelTogether.Domain.Common;
 using TravelTogether.Domain.Enums;
 
@@ -14,5 +15,5 @@ public class User : AuditableBaseEntity
     public DateTime Birthday { get; set; }
     public Gender Gender { get; set; }
     public string ProfilePictureUrl { get; set; }
-    
+    public ICollection<Travel> Travels { get; set; } = new List<Travel>();
 }
