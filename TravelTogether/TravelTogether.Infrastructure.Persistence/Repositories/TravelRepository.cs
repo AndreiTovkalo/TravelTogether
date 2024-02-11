@@ -26,4 +26,5 @@ public class TravelRepository : GenericRepositoryAsync<Travel>, ITravelRepositor
            .ThenInclude(d => d.Coordinates)
            .Where(t => t.Travelers.First().Id == userId);
     }
+
 }

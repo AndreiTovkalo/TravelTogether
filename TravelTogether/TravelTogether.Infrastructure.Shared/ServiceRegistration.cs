@@ -18,6 +18,7 @@ namespace TravelTogether.Infrastructure.Shared
             services.AddTransient<IMockService, MockService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ITravelService, TravelService>();
         }
     }
 }
