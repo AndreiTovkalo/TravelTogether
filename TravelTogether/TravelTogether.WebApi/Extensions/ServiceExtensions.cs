@@ -82,9 +82,8 @@ namespace TravelTogether.WebApi.Extensions
                 options.AddPolicy("AllowAll",
                 builder =>
                 {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyHeader()
-                           .AllowAnyMethod();
+                    builder
+                        .WithOrigins("http://localhost:3000").AllowAnyMethod().AllowAnyHeader().AllowCredentials();
                 });
             });
         }

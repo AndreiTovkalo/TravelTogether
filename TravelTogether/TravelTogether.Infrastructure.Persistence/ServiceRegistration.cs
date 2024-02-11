@@ -26,6 +26,7 @@ namespace TravelTogether.Infrastructure.Persistence
             // services.AddTransient<IPositionRepositoryAsync, PositionRepositoryAsync>();
             // services.AddTransient<IEmployeeRepositoryAsync, EmployeeRepositoryAsync>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITravelRepository, TravelRepository>();
 
         }
     }

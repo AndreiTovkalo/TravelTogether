@@ -17,6 +17,7 @@ namespace TravelTogether.Infrastructure.Persistence.Repositories
         {
             _dbContext = dbContext;
         }
+        
 
         public virtual async Task<T> GetByIdAsync(Guid id)
         {
